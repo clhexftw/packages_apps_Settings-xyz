@@ -32,6 +32,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.CheckBox
 
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -157,7 +158,7 @@ abstract class AppListFragment: Fragment(R.layout.apps_list_layout), MenuItem.On
         fragmentScope.cancel()
         super.onDetach()
     }
-
+    
     /**
      * Set the type of apps that should be displayed in the list.
      * Defaults to [CATEGORY_USER_ONLY].
@@ -282,6 +283,18 @@ abstract class AppListFragment: Fragment(R.layout.apps_list_layout), MenuItem.On
                 notifyItemChanged(position)
                 onListUpdate(checkedList.toList())
             }
+
+            val cbox = itemView.findViewById(R.id.checkBox)
+
+            cbox.setOnClickListener {
+        val packageManager = context.packageManager
+        val intent = packageManager.getLaunchIntentForPackage("com.google.android.apps.nexuslauncher")
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+        }
+            }
+    
         }
     }
 
